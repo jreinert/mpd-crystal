@@ -24,7 +24,7 @@ module MPD
     end
 
     def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span)
-      connection, listener = 2.times.map {
+      connection, listener = (0..1).map {
         LibMPD.mpd_connection_new(
           host.try { |h| h.to_unsafe } || Pointer(UInt8).null,
           port.to_u32,
