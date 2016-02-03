@@ -1,5 +1,5 @@
 require "./status"
-require "./lib_mpd"
+require "../lib_mpd"
 
 lib LibMPD
   fun mpd_connection_new(host : UInt8*, port : UInt32, timeout : UInt32) : Connection?
