@@ -43,7 +43,9 @@ module MPD
       @idler = Idler.new(listener)
     end
 
-    delegate on_event, @idler
+    def on_event(event_mask, &block)
+      @idler.on_event(event_mask, &block)
+    end
 
     def status
       Status.new(self)
