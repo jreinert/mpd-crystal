@@ -1,7 +1,6 @@
 require "../lib_mpd"
 
 lib LibMPD
-  fun mpd_run_current_song(connection : Connection)
   fun mpd_song_get_uri(song : Song) : UInt8*
 end
 
