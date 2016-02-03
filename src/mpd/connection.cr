@@ -21,7 +21,11 @@ module MPD
     end
 
     def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span)
-      connection = LibMPD.mpd_connection_new(host, port.to_u32, timeout.milliseconds)
+      connection = LibMPD.mpd_connection_new(
+        host.try { |h| h.to_unsafe } || Pointer(UInt8).null,
+        port.to_u32,
+        timeout.milliseconds
+      )
       raise Error.new("Out of memory") unless connection
       @connection = connection
 
