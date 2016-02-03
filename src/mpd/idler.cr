@@ -25,7 +25,7 @@ module MPD
     private def event_loop
       loop do
         event = LibMPD.mpd_run_idle(@connection)
-        @subscribers.each do |mask_channel|
+        @subscribers.each do |id, mask_channel|
           mask, channel = mask_channel
           channel.send(event) if mask & event
         end
