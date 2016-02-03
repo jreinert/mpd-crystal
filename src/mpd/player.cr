@@ -1,6 +1,6 @@
 require "./connection"
 require "./song"
-@[Link("libmpdclient")]
+require "../lib_mpd"
 
 lib LibMPD
   fun mpd_run_current_song(connection : Connection)

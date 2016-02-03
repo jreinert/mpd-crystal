@@ -1,17 +1,8 @@
 require "./connection"
 require "./song"
-@[Link("libmpdclient")]
+require "../lib_mpd"
 
 lib LibMPD
-  enum State
-    Unknown
-    Stop
-    Play
-    Pause
-  end
-
-  type Status = Void*
-
   fun mpd_send_status(connection : Connection) : Bool
   fun mpd_recv_status(connection : Connection) : Status?
   fun mpd_status_get_state(status : Status) : State

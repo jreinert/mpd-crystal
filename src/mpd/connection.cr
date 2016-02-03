@@ -1,13 +1,7 @@
 require "./status"
-@[Link("libmpdclient")]
+require "./lib_mpd"
 
 lib LibMPD
-  enum Error
-    Success
-  end
-
-  type Connection = Void*
-
   fun mpd_connection_new(host : UInt8*, port : UInt32, timeout : UInt32) : Connection?
   fun mpd_connection_get_error(connection : Connection) : Error
   fun mpd_connection_get_error_message(connection : Connection) : UInt8*
