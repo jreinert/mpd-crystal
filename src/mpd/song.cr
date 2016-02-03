@@ -10,7 +10,7 @@ module MPD
     end
 
     def uri
-      LibMPD.mpd_song_get_uri(self)
+      String.new(LibMPD.mpd_song_get_uri(self))
     end
 
     def to_unsafe
