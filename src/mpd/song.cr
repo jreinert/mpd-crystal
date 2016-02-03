@@ -1,4 +1,3 @@
-require "./types"
 require "../lib_mpd"
 
 lib LibMPD
