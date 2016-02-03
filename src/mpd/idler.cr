@@ -18,11 +18,7 @@ module MPD
       @id_counter += 1
 
       @subscribers[id] = { event_mask, channel }
-
-      loop do
-        yield channel.receive
-      end
-
+      yield channel.receive
       @subscribers.delete(id)
     end
 
