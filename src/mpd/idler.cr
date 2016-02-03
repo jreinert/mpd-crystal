@@ -8,7 +8,7 @@ module MPD
   class Idler
     def initialize(@connection)
       @id_counter = 0_u32
-      @subscribers = {} of UInt32 => { Events, Channel(Events) }
+      @subscribers = {} of UInt32 => { Events, Channel::Unbuffered(Events) }
       spawn event_loop
     end
 
