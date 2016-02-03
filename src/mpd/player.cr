@@ -8,7 +8,7 @@ end
 
 module MPD
   class Player
-    def intialize(@connection)
+    def initialize(@connection)
     end
 
     def current_song
