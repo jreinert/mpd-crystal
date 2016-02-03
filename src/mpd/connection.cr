@@ -43,7 +43,7 @@ module MPD
       @idler = Idler.new(listener)
     end
 
-    def on_event(event_mask, &block : Event ->)
+    def on_event(event_mask, &block : Events ->)
       @idler.on_event(event_mask, &block)
     end
 
