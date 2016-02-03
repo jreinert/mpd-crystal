@@ -1,5 +1,6 @@
 require "./status"
 require "../lib_mpd"
+require "./idler"
 
 lib LibMPD
   fun mpd_connection_new(host : UInt8*, port : UInt32, timeout : UInt32) : Connection?
@@ -8,6 +9,8 @@ lib LibMPD
 end
 
 module MPD
+  alias Events = LibMPD::Events
+
   class Connection
     class Error < Exception
       def initialize(connection : Connection)
@@ -21,18 +24,26 @@ module MPD
     end
 
     def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span)
-      connection = LibMPD.mpd_connection_new(
-        host.try { |h| h.to_unsafe } || Pointer(UInt8).null,
-        port.to_u32,
-        timeout.milliseconds
-      )
-      raise Error.new("Out of memory") unless connection
+      connection, listener = 2.times.map {
+        LibMPD.mpd_connection_new(
+          host.try { |h| h.to_unsafe } || Pointer(UInt8).null,
+          port.to_u32,
+          timeout.milliseconds
+        )
+      }
+      raise Error.new("Out of memory") unless connection && listener
       @connection = connection
 
-      if LibMPD.mpd_connection_get_error(self) != LibMPD::Error::Success
-        raise Error.new(self)
+      [connection, listener].each do |c|
+        if LibMPD.mpd_connection_get_error(c) != LibMPD::Error::Success
+          raise Error.new(self)
+        end
       end
+
+      @idler = Idler.new(listener)
     end
+
+    delegate on_event, @idler
 
     def status
       Status.new(self)
