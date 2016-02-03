@@ -14,17 +14,18 @@ lib LibMPD
 
   @[Flags]
   enum Events
-    Database = 0x1
-    StoredPlaylist = 0x2
-    Queue = 0x4
-    Player = 0x8
-    Mixer = 0x10
-    Output = 0x20
-    Options = 0x40
-    Update = 0x80
-    Sticker = 0x100
-    Subscription = 0x200
-    Message = 0x400
+    Database       = 0x001
+    StoredPlaylist = 0x002
+    Queue          = 0x004
+    Playlist       = Queue
+    Player         = 0x008
+    Mixer          = 0x010
+    Output         = 0x020
+    Options        = 0x040
+    Update         = 0x080
+    Sticker        = 0x100
+    Subscription   = 0x200
+    Message        = 0x400
   end
 
   type Connection = Void*
