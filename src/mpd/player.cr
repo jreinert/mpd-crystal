@@ -3,7 +3,7 @@ require "./song"
 require "../lib_mpd"
 
 lib LibMPD
-  fun mpd_run_current_song(connection : Connection)
+  fun mpd_run_current_song(connection : Connection) : Song
 end
 
 module MPD
