@@ -6,6 +6,7 @@ require "./error"
 lib LibMPD
   fun mpd_connection_new(host : UInt8*, port : UInt32, timeout : UInt32) : Connection?
   fun mpd_connection_set_keepalive(connection : Connection, keep_alive : Bool)
+  fun mpd_connnection_free(connection : Connection)
 end
 
 module MPD
@@ -31,6 +32,10 @@ module MPD
         LibMPD.mpd_connection_set_keepalive(c, keep_alive)
       end
       @idler = Idler.new(listener)
+    end
+
+    def finalize
+      LibMPD.mpd_connection_free(self)
     end
 
     def on_event(event_mask, &block : Events ->)

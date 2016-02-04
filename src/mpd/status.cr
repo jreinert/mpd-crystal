@@ -9,6 +9,7 @@ lib LibMPD
   fun mpd_status_get_state(status : Status) : State
   fun mpd_status_get_song_id(status : Status) : Int32
   fun mpd_status_get_elapsed_ms(status : Status) : UInt32
+  fun mpd_status_free(status : Status)
 end
 
 module MPD
@@ -22,6 +23,10 @@ module MPD
       status = LibMPD.mpd_recv_status(connection)
       Error.raise_on_error(connection, "failed receiving status")
       @status = status
+    end
+
+    def finalize
+      LibMPD.mpd_status_free(self)
     end
 
     {% for state in LibMPD::State.constants %}
