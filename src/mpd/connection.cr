@@ -1,6 +1,7 @@
 require "./status"
 require "../lib_mpd"
 require "./idler"
+require "./error"
 
 lib LibMPD
   fun mpd_connection_new(host : UInt8*, port : UInt32, timeout : UInt32) : Connection?

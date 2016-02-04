@@ -1,6 +1,7 @@
 require "./connection"
 require "./song"
 require "../lib_mpd"
+require "./error"
 
 lib LibMPD
   fun mpd_send_status(connection : Connection) : Bool
