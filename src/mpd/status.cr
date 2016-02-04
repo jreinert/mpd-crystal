@@ -5,7 +5,7 @@ require "./error"
 
 lib LibMPD
   fun mpd_send_status(connection : Connection) : Bool
-  fun mpd_recv_status(connection : Connection) : Status?
+  fun mpd_recv_status(connection : Connection) : Status
   fun mpd_status_get_state(status : Status) : State
   fun mpd_status_get_song_id(status : Status) : Int32
   fun mpd_status_get_elapsed_ms(status : Status) : UInt32
