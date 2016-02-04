@@ -17,9 +17,10 @@ module MPD
     end
 
     def initialize(connection)
-      LibMPD.mpd_send_status(connection) || raise Error.new("failed sending status command")
+      LibMPD.mpd_send_status(connection)
+      Error.raise_on_error(connection, "failed sending status command")
       status = LibMPD.mpd_recv_status(connection)
-      raise Error.new("failed receiving status") unless status
+      Error.raise_on_error(connection, "failed receiving status")
       @status = status
     end
 

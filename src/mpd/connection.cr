@@ -5,8 +5,6 @@ require "./error"
 
 lib LibMPD
   fun mpd_connection_new(host : UInt8*, port : UInt32, timeout : UInt32) : Connection?
-  fun mpd_connection_get_error(connection : Connection) : Error
-  fun mpd_connection_get_error_message(connection : Connection) : UInt8*
 end
 
 module MPD
@@ -14,6 +12,9 @@ module MPD
 
   class Connection
     class Error < MPD::Error
+      def initialize(connection)
+        super(connection, "failed to connect to mpd")
+      end
     end
 
     def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span)
@@ -28,9 +29,7 @@ module MPD
       @connection = connection
 
       [connection, listener].each do |c|
-        if LibMPD.mpd_connection_get_error(c) != LibMPD::Error::Success
-          raise Error.new(self)
-        end
+        Error.raise_on_error(c)
       end
 
       @idler = Idler.new(listener)
