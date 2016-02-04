@@ -12,9 +12,6 @@ module MPD
 
   class Connection
     class Error < MPD::Error
-      def initialize(connection)
-        super(connection, "failed to connect to mpd")
-      end
     end
 
     def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span)
@@ -25,11 +22,11 @@ module MPD
           timeout.milliseconds
         )
       }
-      raise Error.new("Out of memory") unless connection && listener
+      raise "Out of memory" unless connection && listener
       @connection = connection
 
       [connection, listener].each do |c|
-        Error.raise_on_error(c)
+        Error.raise_on_error(c, "failed to connect to mpd")
       end
 
       @idler = Idler.new(listener)
