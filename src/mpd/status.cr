@@ -12,7 +12,7 @@ end
 
 module MPD
   class Status
-    class Error < Exception
+    class Error < MPD::Error
     end
 
     def initialize(connection)

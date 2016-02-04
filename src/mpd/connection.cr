@@ -12,15 +12,7 @@ module MPD
   alias Events = LibMPD::Events
 
   class Connection
-    class Error < Exception
-      def initialize(connection : Connection)
-        message = String.new(LibMPD.mpd_connection_get_error_message(connection))
-        super(message)
-      end
-
-      def initialize(message : String)
-        super(message)
-      end
+    class Error < MPD::Error
     end
 
     def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span)
