@@ -5,6 +5,7 @@ require "./error"
 
 lib LibMPD
   fun mpd_connection_new(host : UInt8*, port : UInt32, timeout : UInt32) : Connection?
+  fun mpd_connection_set_keepalive(connection : Connection, keep_alive : Bool)
 end
 
 module MPD
@@ -14,7 +15,7 @@ module MPD
     class Error < MPD::Error
     end
 
-    def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span)
+    def initialize(host = nil : String?, port = 0 : Int32, timeout = 0.milliseconds : Time::Span, keep_alive = false)
       connection, listener = (0..1).map {
         LibMPD.mpd_connection_new(
           host.try { |h| h.to_unsafe } || Pointer(UInt8).null,
@@ -27,8 +28,8 @@ module MPD
 
       [connection, listener].each do |c|
         Error.raise_on_error(c, "failed to connect to mpd")
+        LibMPD.mpd_connection_set_keepalive(c, keep_alive)
       end
-
       @idler = Idler.new(listener)
     end
 
