@@ -6,7 +6,7 @@ lib LibMPD
 end
 
 module MPD
-  class Error
+  class Error < Exception
     def self.raise_on_error(connection, message)
       return if LibMPD.mpd_connection_get_error(connection) == LibMPD::Error::Success
       mpd_error = String.new(LibMPD.mpd_connection_get_error_message(connection))
